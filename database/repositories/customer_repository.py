@@ -10,7 +10,17 @@ class CustomerRepository:
         cursor = conn.cursor(dictionary=True)
 
         cursor.execute("""
-            SELECT *
+            SELECT
+                account_no,
+                lastname,
+                firstname,
+                middlename,
+                status,
+                plan,
+                balance,
+                phone,
+                email,
+                address
             FROM customers
             WHERE account_no = ?
         """, (account_no,))

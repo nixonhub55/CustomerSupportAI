@@ -1,0 +1,3 @@
+COMPANY_NAME = "My ISP"
+
+CURRENCY = "PHP"

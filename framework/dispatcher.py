@@ -1,16 +1,32 @@
-class ToolDispatcher:
+from services.planner_service import plan
 
-    def __init__(self, framework):
 
-        self.framework = framework
+class Dispatcher:
 
-    def dispatch(self, action):
 
-        tool = action.tool
+    def __init__(self, registry):
 
-        args = action.args
+        self.registry = registry
 
-        return self.framework.tools.execute(
-            tool,
-            **args
-        )
+
+    def dispatch(
+        self,
+        assistant,
+        question
+    ):
+
+        execution_plan = plan(question)
+
+        context = {}
+
+        for task in execution_plan:
+
+            result = self.registry.execute(
+                task["tool"],
+                task.get("args", {})
+            )
+
+            context[task["tool"]] = result
+
+
+        return context

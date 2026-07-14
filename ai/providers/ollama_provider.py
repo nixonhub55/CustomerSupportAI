@@ -1,26 +1,33 @@
 import requests
+import time
 
 from config import *
 
 from ai.providers.ai_provider import AIProvider
 from services.logger_service import logger
-import time
 
 
 class OllamaProvider(AIProvider):
 
     def ask(self, prompt):
 
-    start = time.time()
+        start = time.time()
 
-    response = requests.post(
-        ...
-    )
+        response = requests.post(
+            OLLAMA_URL,
+            json={
+                "model": AI_MODEL,
+                "prompt": prompt,
+                "stream": False
+            }
+        )
 
-    elapsed = time.time() - start
+        response.raise_for_status()
 
-    logger.info(
-        f"Ollama ({AI_MODEL}) responded in {elapsed:.2f} seconds."
-    )
+        elapsed = time.time() - start
 
-    return response.json()["response"]
+        logger.info(
+            f"Ollama ({AI_MODEL}) responded in {elapsed:.2f} seconds."
+        )
+
+        return response.json()["response"]

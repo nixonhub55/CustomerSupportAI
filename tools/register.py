@@ -1,8 +1,23 @@
-from core.tool_registry import ToolRegistry
+from tools.customer_lookup_tool import CustomerLookupTool
+from tools.payment_history_tool import PaymentHistoryTool
+from tools.invoice_summary_tool import InvoiceSummaryTool
+from tools.ticket_summary_tool import TicketSummaryTool
 
-from tools.customer_tools import customer_profile_tool
 
+def register_tools(registry):
 
-registry = ToolRegistry()
+    registry.register(
+        CustomerLookupTool()
+    )
 
-registry.register(customer_profile_tool)
+    registry.register(
+        PaymentHistoryTool()
+    )
+
+    registry.register(
+        InvoiceSummaryTool()
+    )
+
+    registry.register(
+        TicketSummaryTool()
+    )

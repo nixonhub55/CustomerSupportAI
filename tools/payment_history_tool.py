@@ -1,18 +1,12 @@
 from tools.base_tool import BaseTool
 
-from database.repositories.payment_repository import PaymentRepository
+from services.payment_service import get_payment_history
 
 
 class PaymentHistoryTool(BaseTool):
 
-    name = "payment_history"
-
-    description = "Returns payment history."
-
-    def __init__(self):
-
-        self.repo = PaymentRepository()
-
     def execute(self, account_no):
 
-        return self.repo.get_recent(account_no)
+        return get_payment_history(
+            account_no
+        )

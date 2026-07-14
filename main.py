@@ -1,8 +1,37 @@
-from framework.framework import Framework
+from framework.kernel import Kernel
+from assistants.billing_assistant import BillingAssistant
 
 
-framework = Framework()
 
-framework.start()
+kernel = Kernel()
 
-framework.info()
+kernel.boot()
+
+
+
+assistant = BillingAssistant(
+    kernel.ai_engine
+)
+
+
+
+while True:
+
+    question = input(
+        "\nYou: "
+    )
+
+
+    if question.lower() == "exit":
+        break
+
+
+    answer = assistant.ask(
+        question
+    )
+
+
+    print(
+        "\nAI:",
+        answer
+    )
