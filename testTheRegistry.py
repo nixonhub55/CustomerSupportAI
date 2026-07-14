@@ -5,4 +5,6 @@ registry = ToolRegistry()
 
 register_tools(registry)
 
-print(registry.list())
+from pprint import pprint
+
+pprint(registry.list())

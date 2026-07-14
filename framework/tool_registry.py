@@ -41,7 +41,29 @@ class ToolRegistry:
 
     def list(self):
         """
-        Return all registered tool names.
+        Return metadata for all registered tools.
+        """
+
+        return [
+            self.tools[name].metadata()
+            for name in sorted(self.tools.keys())
+        ]
+
+    def names(self):
+        """
+        Return only tool names.
         """
 
         return sorted(self.tools.keys())
+
+    def metadata(self, tool_name):
+        """
+        Return metadata for one tool.
+        """
+
+        tool = self.get(tool_name)
+
+        if tool is None:
+            return None
+
+        return tool.metadata()

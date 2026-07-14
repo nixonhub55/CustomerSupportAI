@@ -1,12 +1,26 @@
-from dataclasses import dataclass
-from typing import Callable
+from tools.base_tool import BaseTool
+from services.customer_service import get_customer_profile
 
 
-@dataclass
-class Tool:
+class CustomerLookupTool(BaseTool):
 
-    name: str
+    name = "customer_lookup"
 
-    description: str
+    description = "Retrieve customer profile by account number."
 
-    handler: Callable
+    category = "customer"
+
+    plugin = "billing"
+
+    parameters = [
+        {
+            "name": "account_no",
+            "type": "string",
+            "required": True,
+            "description": "Customer account number"
+        }
+    ]
+
+    def execute(self, account_no):
+
+        return get_customer_profile(account_no)

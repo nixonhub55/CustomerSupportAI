@@ -5,7 +5,22 @@ from services.invoice_service import get_invoice_summary
 class InvoiceSummaryTool(BaseTool):
 
     name = "invoice_summary"
+
     description = "Retrieve unpaid invoices."
 
+    category = "billing"
+
+    plugin = "billing"
+
+    parameters = [
+        {
+            "name": "account_no",
+            "type": "string",
+            "required": True,
+            "description": "Customer account number"
+        }
+    ]
+
     def execute(self, account_no):
+
         return get_invoice_summary(account_no)
