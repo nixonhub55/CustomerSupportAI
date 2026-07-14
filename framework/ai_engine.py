@@ -4,21 +4,13 @@ from ai.ai import AI
 
 class AIEngine:
 
-
     def __init__(self, registry):
 
+        self.registry = registry
+        self.dispatcher = Dispatcher(registry)
         self.ai = AI()
 
-        self.dispatcher = Dispatcher(
-            registry
-        )
-
-
-    def ask(
-        self,
-        assistant,
-        question
-    ):
+    def ask(self, assistant, question):
 
         context = self.dispatcher.dispatch(
             assistant,

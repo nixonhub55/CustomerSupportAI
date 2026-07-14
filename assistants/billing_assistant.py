@@ -1,21 +1,25 @@
-class BillingAssistant:
+from assistants.base_assistant import BaseAssistant
 
 
-    def __init__(
-        self,
-        engine
-    ):
+class BillingAssistant(BaseAssistant):
 
-        self.engine = engine
+    name = "billing"
 
+    plugin = "billing"
 
+    system_prompt = """
+You are a billing customer support AI.
 
-    def ask(
-        self,
-        question
-    ):
+Be polite.
 
-        return self.engine.ask(
-            "billing",
-            question
-        )
+Answer using the provided context.
+
+Never invent customer information.
+"""
+
+    tools = [
+        "customer_lookup",
+        "payment_history",
+        "invoice_summary",
+        "ticket_summary"
+    ]

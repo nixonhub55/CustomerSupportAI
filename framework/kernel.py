@@ -1,5 +1,6 @@
 from framework.ai_engine import AIEngine
 from framework.tool_registry import ToolRegistry
+from assistants.billing_assistant import BillingAssistant
 
 
 class Kernel:
@@ -17,7 +18,13 @@ class Kernel:
 
         print("AI Framework starting...")
 
+       
+
         self.load_tools()
+
+        self.assistants = {
+            "billing": BillingAssistant()
+        }
 
         print("AI Framework ready.")
 
@@ -30,3 +37,7 @@ class Kernel:
         register_tools(
             self.tools
         )
+
+    def get_assistant(self, name):
+
+    return self.assistants[name]
