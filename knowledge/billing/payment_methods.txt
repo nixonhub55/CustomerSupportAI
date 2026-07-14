@@ -1,0 +1,10 @@
+Customers can pay using the following methods:
+
+1. GCash
+2. Maya
+3. Bank Transfer
+4. Cash Payment at the Main Office
+
+Please advise customers to include their Account Number in the payment reference.
+
+Payments are usually posted within 24 hours after confirmation.

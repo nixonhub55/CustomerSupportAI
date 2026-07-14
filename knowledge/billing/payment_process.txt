@@ -1,0 +1,15 @@
+Payment Process
+
+Step 1
+Customer submits payment.
+
+Step 2
+Billing staff verifies the payment.
+
+Step 3
+Payment is posted to the customer's account.
+
+Step 4
+If the account was inactive because of unpaid bills, the system schedules reconnection.
+
+Normal posting time is within 24 hours.

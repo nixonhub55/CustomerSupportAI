@@ -1,0 +1,7 @@
+Reconnection Policy
+
+After payment is confirmed and posted, customer accounts may be reactivated.
+
+Normal processing time is within 2 hours during office hours.
+
+Customers should contact customer support if the service is not restored after the expected processing time.

@@ -1,0 +1,7 @@
+Disconnection Policy
+
+Customer accounts may become In-Active if payments are overdue.
+
+Customers are encouraged to settle their outstanding balance immediately.
+
+After payment has been verified, the account may be reactivated according to company procedures.
