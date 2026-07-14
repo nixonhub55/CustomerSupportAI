@@ -1,26 +1,30 @@
-from database.ai_db import search_knowledge_by_keywords
-from services.search_service import extract_keywords
+from database.repositories.knowledge_repository import KnowledgeRepository
 
 
-def get_knowledge(question):
+class KnowledgeService:
 
-    keywords = extract_keywords(question)
+    def __init__(self):
 
-    articles = search_knowledge_by_keywords(keywords)
+        self.repo = KnowledgeRepository()
 
-    knowledge = ""
+    def search(self, question):
 
-    for article in articles[:3]:
+        words = question.lower().split()
 
-        knowledge += f"""
-Title:
-{article['title']}
+        results = []
 
-Content:
-{article['content']}
+        seen = set()
 
---------------------------------
+        for word in words:
 
-"""
+            rows = self.repo.search(word)
 
-    return knowledge
+            for row in rows:
+
+                if row["knowledge_id"] not in seen:
+
+                    results.append(row)
+
+                    seen.add(row["knowledge_id"])
+
+        return results

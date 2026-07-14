@@ -4,8 +4,28 @@ from dataclasses import dataclass, field
 @dataclass
 class Action:
 
-    tool: str
+    def __init__(
 
-    args: dict = field(default_factory=dict)
+        self,
 
-    intent: str = "UNKNOWN"
+        intent,
+
+        account_no=None,
+
+        customer=False,
+
+        knowledge=False,
+
+        entities=None
+
+    ):
+
+        self.intent = intent
+
+        self.account_no = account_no
+
+        self.customer = customer
+
+        self.knowledge = knowledge
+
+        self.entities = entities or {}
