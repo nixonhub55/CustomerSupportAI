@@ -1,6 +1,4 @@
 from framework.kernel import Kernel
-from assistants.billing_assistant import BillingAssistant
-
 
 
 kernel = Kernel()
@@ -8,30 +6,16 @@ kernel = Kernel()
 kernel.boot()
 
 
-
-assistant = BillingAssistant(
-    kernel.ai_engine
-)
-
-
-
 while True:
 
-    question = input(
-        "\nYou: "
-    )
-
+    question = input("\nYou: ")
 
     if question.lower() == "exit":
         break
 
-
-    answer = assistant.ask(
+    answer = kernel.ask(
+        "billing",
         question
     )
 
-
-    print(
-        "\nAI:",
-        answer
-    )
+    print("\nAI:", answer)

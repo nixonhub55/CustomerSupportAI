@@ -13,15 +13,17 @@ class Dispatcher:
 
         context = {}
 
-        for action in execution_plan:
+        if execution_plan.get("customer"):
 
-            tool = action["tool"]
+            account_no = execution_plan.get("account_no")
 
-            args = action.get("args", {})
-
-            context[tool] = self.registry.execute(
-                tool,
-                **args
+            context["customer_lookup"] = self.registry.execute(
+                "customer_lookup",
+                account_no=account_no
             )
+
+        # Knowledge retrieval will be added later.
+        # Invoice, payment and ticket retrieval will also
+        # be moved here as the planner evolves.
 
         return context

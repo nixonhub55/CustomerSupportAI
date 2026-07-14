@@ -4,3 +4,5 @@
 [2026-07-14 09:49:33] [INFO] Customer lookup started
 [2026-07-14 09:49:33] [WARNING] Knowledge not found
 [2026-07-14 09:49:33] [ERROR] Database timeout
+[2026-07-14 18:46:33] [INFO] Ollama (gemma3:4b) responded in 25.65 seconds.
+[2026-07-14 18:47:29] [INFO] Ollama (gemma3:4b) responded in 14.16 seconds.

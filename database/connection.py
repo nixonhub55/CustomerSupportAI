@@ -4,9 +4,8 @@ from config import *
 
 def connect():
     return mariadb.connect(
-        host=HOST,
-        port=PORT,
-        user=USER,
-        password=PASSWORD,
-        database=DATABASE
+        host="localhost",
+        user="root",
+        password="PfNgB@y@n",
+        database="billing_db"
     )
