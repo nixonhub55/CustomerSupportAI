@@ -6,7 +6,6 @@ class AIEngine:
 
     def __init__(self, registry):
 
-        self.registry = registry
         self.dispatcher = Dispatcher(registry)
         self.ai = AI()
 
