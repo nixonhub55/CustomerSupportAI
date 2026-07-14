@@ -4,30 +4,44 @@ class ToolRegistry:
 
         self.tools = {}
 
-
     def register(self, tool):
+        """
+        Register a tool instance.
+        """
 
         self.tools[tool.name] = tool
 
+    def execute(self, tool_name, **kwargs):
+        """
+        Execute a registered tool.
+        """
 
-    def get(self, name):
-
-        return self.tools.get(name)
-
-
-    def execute(self, name, **kwargs):
-
-        tool = self.get(name)
+        tool = self.tools.get(tool_name)
 
         if tool is None:
-
             raise Exception(
-                f"Tool '{name}' is not registered."
+                f"Tool '{tool_name}' is not registered."
             )
 
         return tool.execute(**kwargs)
 
+    def get(self, tool_name):
+        """
+        Return a tool instance.
+        """
+
+        return self.tools.get(tool_name)
+
+    def exists(self, tool_name):
+        """
+        Check if a tool exists.
+        """
+
+        return tool_name in self.tools
 
     def list(self):
+        """
+        Return all registered tool names.
+        """
 
-        return list(self.tools.keys())
+        return sorted(self.tools.keys())
