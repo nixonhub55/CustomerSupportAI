@@ -4,4 +4,4 @@ kernel = Kernel()
 
 kernel.boot()
 
-print("Framework booted successfully.")
+print(kernel.get_assistant("billing"))

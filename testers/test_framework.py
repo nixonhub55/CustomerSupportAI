@@ -1,12 +1,7 @@
-from framework.framework import Framework
+from framework.kernel import Kernel
 
-framework = Framework()
+kernel = Kernel()
 
-framework.start()
+kernel.boot()
 
-customer = framework.tools.execute(
-    "customer.profile",
-    "100001"
-)
-
-print(customer)
+print("Framework booted successfully.")
