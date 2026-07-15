@@ -1,69 +1,91 @@
 class ToolRegistry:
+    """
+    Registry for all framework tools.
+    """
 
     def __init__(self):
 
         self.tools = {}
 
-    def register(self, tool):
-        """
-        Register a tool instance.
-        """
+    # -----------------------------------------------------
 
-        self.tools[tool.name] = tool
+    def register(self, tool): 
+        
+        print("=" * 60)
+        print("Class:", tool.__class__.__name__)
+        print("Metadata:", tool.metadata())
+        print("=" * 60)
 
-    def execute(self, tool_name, **kwargs):
-        """
-        Execute a registered tool.
-        """
+        metadata = tool.metadata()
 
-        tool = self.tools.get(tool_name)
+        name = metadata.get("name")
 
-        if tool is None:
-            raise Exception(
-                f"Tool '{tool_name}' is not registered."
+        if not name:
+            raise ValueError(
+                f"{tool.__class__.__name__} has no NAME defined."
             )
 
-        return tool.execute(**kwargs)
+        self.tools[name] = tool
+    # -----------------------------------------------------
 
-    def get(self, tool_name):
+    def get(self, name):
         """
         Return a tool instance.
         """
 
-        return self.tools.get(tool_name)
+        return self.tools.get(name)
 
-    def exists(self, tool_name):
+    # -----------------------------------------------------
+
+    def execute(self, name, **kwargs):
         """
-        Check if a tool exists.
+        Execute a registered tool.
         """
 
-        return tool_name in self.tools
+        tool = self.get(name)
+
+        if tool is None:
+            raise ValueError(
+                f"Tool '{name}' is not registered."
+            )
+
+        return tool.execute(**kwargs)
+
+    # -----------------------------------------------------
+
+    def exists(self, name):
+        """
+        Check whether a tool exists.
+        """
+
+        return name in self.tools
+
+    # -----------------------------------------------------
 
     def list(self):
+        """
+        Return all tool names.
+        """
+
+        return sorted(self.tools.keys())
+
+    # -----------------------------------------------------
+
+    def metadata(self):
         """
         Return metadata for all registered tools.
         """
 
         return [
-            self.tools[name].metadata()
-            for name in sorted(self.tools.keys())
+            tool.metadata()
+            for tool in self.tools.values()
         ]
 
-    def names(self):
-        """
-        Return only tool names.
-        """
+    # -----------------------------------------------------
 
-        return sorted(self.tools.keys())
-
-    def metadata(self, tool_name):
+    def clear(self):
         """
-        Return metadata for one tool.
+        Remove all registered tools.
         """
 
-        tool = self.get(tool_name)
-
-        if tool is None:
-            return None
-
-        return tool.metadata()
+        self.tools.clear()

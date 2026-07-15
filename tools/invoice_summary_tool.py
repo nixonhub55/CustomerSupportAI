@@ -4,15 +4,19 @@ from services.invoice_service import get_invoice_summary
 
 class InvoiceSummaryTool(BaseTool):
 
-    name = "invoice_summary"
+    AUTO_REGISTER = True
 
-    description = "Retrieve unpaid invoices."
+    NAME = "invoice_summary"
 
-    category = "billing"
+    DISPLAY_NAME = "Invoice Summary"
 
-    plugin = "billing"
+    DESCRIPTION = "Retrieve unpaid invoices."
 
-    parameters = [
+    CATEGORY = "tool"
+
+    PLUGIN = "billing"
+
+    PARAMETERS = [
         {
             "name": "account_no",
             "type": "string",

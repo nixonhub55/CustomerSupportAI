@@ -1,6 +1,5 @@
 from fastapi import APIRouter
-
-from api.app import kernel
+from api.dependencies import kernel
 
 router = APIRouter()
 
@@ -8,9 +7,9 @@ router = APIRouter()
 @router.post("/chat")
 def chat(request: dict):
 
-    question = request["message"]
-
-    answer = kernel.ask(question)
+    answer = kernel.ask(
+        request["message"]
+    )
 
     return {
         "answer": answer

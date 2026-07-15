@@ -4,15 +4,19 @@ from services.payment_service import get_payment_history
 
 class PaymentHistoryTool(BaseTool):
 
-    name = "payment_history"
+    AUTO_REGISTER = True
 
-    description = "Retrieve recent payment history."
+    NAME = "payment_history"
 
-    category = "payment"
+    DISPLAY_NAME = "Payment History"
 
-    plugin = "billing"
+    DESCRIPTION = "Retrieve recent payment history."
 
-    parameters = [
+    CATEGORY = "tool"
+
+    PLUGIN = "billing"
+
+    PARAMETERS = [
         {
             "name": "account_no",
             "type": "string",

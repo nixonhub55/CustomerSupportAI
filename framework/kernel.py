@@ -1,5 +1,8 @@
+from core.container import Container
+
 from framework.ai_engine import AIEngine
 from framework.tool_registry import ToolRegistry
+
 from assistants.billing_assistant import BillingAssistant
 
 
@@ -7,18 +10,28 @@ class Kernel:
 
     def __init__(self):
 
+        # -------------------------
+        # Infrastructure
+        # -------------------------
+
+        self.container = Container()
+
         self.tools = ToolRegistry()
+
         self.assistants = {}
 
-        """ self.ai_engine = AIEngine(
-            self.tools
-        ) """
+        # -------------------------
+        # Register services
+        # -------------------------
+
         self.container.register_factory(
             "ai_engine",
             lambda: AIEngine(
                 self.tools
             )
         )
+
+    # -----------------------------------------------------
 
     def boot(self):
 
@@ -30,6 +43,17 @@ class Kernel:
 
         print("AI Framework ready.")
 
+    # -----------------------------------------------------
+
+    @property
+    def ai_engine(self):
+
+        return self.container.resolve(
+            "ai_engine"
+        )
+
+    # -----------------------------------------------------
+
     def load_tools(self):
 
         from tools.register import register_tools
@@ -38,23 +62,34 @@ class Kernel:
             self.tools
         )
 
+    # -----------------------------------------------------
+
     def load_assistants(self):
 
         self.assistants = {
             "billing": BillingAssistant()
         }
 
+    # -----------------------------------------------------
+
     def get_assistant(self, name):
 
         return self.assistants.get(name)
 
-    def ask(self, assistant_name, question):
+    # -----------------------------------------------------
+
+    def ask(
+        self,
+        assistant_name,
+        question
+    ):
 
         assistant = self.get_assistant(
             assistant_name
         )
 
         if assistant is None:
+
             raise Exception(
                 f"Assistant '{assistant_name}' not found."
             )

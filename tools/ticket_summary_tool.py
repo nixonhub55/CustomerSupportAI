@@ -4,15 +4,19 @@ from services.ticket_service import get_ticket_summary
 
 class TicketSummaryTool(BaseTool):
 
-    name = "ticket_summary"
+    AUTO_REGISTER = True
 
-    description = "Retrieve open support tickets."
+    NAME = "ticket_summary"
 
-    category = "support"
+    DISPLAY_NAME = "Ticket Summary"
 
-    plugin = "billing"
+    DESCRIPTION = "Retrieve open support tickets."
 
-    parameters = [
+    CATEGORY = "tool"
+
+    PLUGIN = "billing"
+
+    PARAMETERS = [
         {
             "name": "account_no",
             "type": "string",
