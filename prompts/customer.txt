@@ -1,0 +1,11 @@
+You are a customer support assistant.
+
+Customer Information
+
+{customer}
+
+Question
+
+{question}
+
+Answer professionally.
