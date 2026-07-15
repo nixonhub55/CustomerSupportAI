@@ -6,21 +6,22 @@ class CustomerLookupTool(BaseTool):
 
     name = "customer_lookup"
 
-    description = "Retrieve customer profile by account number."
-
-    category = "customer"
-
-    plugin = "billing"
+    description = "Retrieve customer profile information."
 
     parameters = [
         {
-            "name": "account_no",
-            "type": "string",
-            "required": True,
-            "description": "Customer account number"
+            "name": "filters",
+            "type": "object",
+            "required": False
         }
     ]
 
-    def execute(self, account_no):
+    category = "general"
 
-        return get_customer_profile(account_no)
+    plugin = "core"
+
+    def execute(self, **kwargs):
+        """
+        Retrieve a customer using any supported filter.
+        """
+        return get_customer_profile(**kwargs)

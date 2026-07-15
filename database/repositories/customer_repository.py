@@ -1,29 +1,52 @@
 from database.connection import connect
-
+ 
+    
 
 class CustomerRepository:
 
-    def get_by_account(self, account_no):
+
+    SEARCHABLE_FIELDS = {
+        "account_no",
+        "phone",
+        "email",
+        "firstname",
+        "lastname",
+        "middlename" 
+    }
+
+    def find_one(self, **filters):
+    
+        clauses = []
+        values = []
+
+        for field, value in filters.items():
+
+            if value is None:
+                continue
+
+            if field not in self.SEARCHABLE_FIELDS:
+                raise ValueError(
+                    f"Invalid search field: {field}"
+                )
+
+            clauses.append(f"{field} = ?")
+            values.append(value)
+
+        if not clauses:
+            return None
+
+        sql = f"""
+            SELECT *
+            FROM customers
+            WHERE {' AND '.join(clauses)}
+            LIMIT 1
+        """
 
         conn = connect()
 
         cursor = conn.cursor(dictionary=True)
 
-        cursor.execute("""
-            SELECT
-                account_no,
-                lastname,
-                firstname,
-                middlename,
-                status,
-                plan,
-                balance,
-                phone,
-                email,
-                address
-            FROM customers
-            WHERE account_no = ?
-        """, (account_no,))
+        cursor.execute(sql, tuple(values))
 
         customer = cursor.fetchone()
 

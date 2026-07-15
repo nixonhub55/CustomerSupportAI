@@ -9,14 +9,21 @@ def plan(question):
         "customer": False,
         "knowledge": False,
         "account_no": None,
+        "phone": None,
         "intent": "UNKNOWN"
     }
 
-    # Find account number
-    match = re.search(r"\b\d{6,12}\b", q)
+    # Detect account number (6-9 digits for your system)
+    account = re.search(r"\b\d{6,9}\b", q)
 
-    if match:
-        plan["account_no"] = match.group()
+    if account:
+        plan["account_no"] = account.group()
+
+    # Detect Philippine mobile number
+    phone = re.search(r"\b09\d{8}\b", q)
+
+    if phone:
+        plan["phone"] = phone.group()
 
     # Customer lookup
     if any(word in q for word in [
@@ -25,32 +32,30 @@ def plan(question):
         "customer information",
         "customer details",
         "account details",
-        "show account"
+        "show account",
+        "who is",
+        "who owns",
+        "phone number"
     ]):
         plan["customer"] = True
         plan["intent"] = "CUSTOMER_LOOKUP"
 
-    # Balance
     elif "balance" in q:
         plan["customer"] = True
         plan["intent"] = "BALANCE"
 
-    # Plan
     elif "plan" in q:
         plan["customer"] = True
         plan["intent"] = "PLAN"
 
-    # Status
     elif any(word in q for word in ["status", "active", "inactive"]):
         plan["customer"] = True
         plan["intent"] = "STATUS"
 
-    # Payment questions
     elif any(word in q for word in ["payment", "gcash", "maya", "pay"]):
         plan["knowledge"] = True
         plan["intent"] = "PAYMENT"
 
-    # Policy / process questions
     elif any(word in q for word in ["policy", "process", "how", "why", "when"]):
         plan["knowledge"] = True
         plan["intent"] = "KNOWLEDGE"
