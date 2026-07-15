@@ -1,9 +1,17 @@
-from database.connection import connect
- 
-    
+from database.repositories.base_repository import BaseRepository
 
-class CustomerRepository:
 
+class CustomerRepository(BaseRepository):
+
+    TABLE = "customers"
+
+    PRIMARY_KEY = "account_no"
+
+    DISPLAY_NAME = "Customer"
+
+    DESCRIPTION = "Customer account information."
+
+    DEFAULT_ORDER = "lastname"
 
     SEARCHABLE_FIELDS = {
         "account_no",
@@ -11,46 +19,7 @@ class CustomerRepository:
         "email",
         "firstname",
         "lastname",
-        "middlename" 
+        "middlename",
+        "status",
+        "plan"
     }
-
-    def find_one(self, **filters):
-    
-        clauses = []
-        values = []
-
-        for field, value in filters.items():
-
-            if value is None:
-                continue
-
-            if field not in self.SEARCHABLE_FIELDS:
-                raise ValueError(
-                    f"Invalid search field: {field}"
-                )
-
-            clauses.append(f"{field} = ?")
-            values.append(value)
-
-        if not clauses:
-            return None
-
-        sql = f"""
-            SELECT *
-            FROM customers
-            WHERE {' AND '.join(clauses)}
-            LIMIT 1
-        """
-
-        conn = connect()
-
-        cursor = conn.cursor(dictionary=True)
-
-        cursor.execute(sql, tuple(values))
-
-        customer = cursor.fetchone()
-
-        cursor.close()
-        conn.close()
-
-        return customer
