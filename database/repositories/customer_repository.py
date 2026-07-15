@@ -7,9 +7,15 @@ class CustomerRepository(BaseRepository):
 
     PRIMARY_KEY = "account_no"
 
+    NAME = "customer"
+
     DISPLAY_NAME = "Customer"
 
     DESCRIPTION = "Customer account information."
+
+    CATEGORY = "repository"
+
+    VERSION = "1.0.0"
 
     DEFAULT_ORDER = "lastname"
 

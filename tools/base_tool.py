@@ -1,30 +1,37 @@
 from abc import ABC, abstractmethod
 
+from core.base_component import BaseComponent
 
-class BaseTool(ABC):
+
+class BaseTool(BaseComponent, ABC):
     """
     Base class for all framework tools.
     """
 
-    name = ""
+    AUTO_REGISTER = False
 
-    description = ""
+    NAME = ""
 
-    category = "general"
+    DISPLAY_NAME = ""
 
-    parameters = []
+    DESCRIPTION = ""
 
-    plugin = "core"
+    CATEGORY = "general"
+
+    PARAMETERS = []
+
+    PLUGIN = "core"
 
     def metadata(self):
 
-        return {
-            "name": self.name,
-            "description": self.description,
-            "category": self.category,
-            "plugin": self.plugin,
-            "parameters": self.parameters
-        }
+        data = super().metadata()
+
+        data.update({
+            "plugin": self.PLUGIN,
+            "parameters": self.PARAMETERS
+        })
+
+        return data
 
     @abstractmethod
     def execute(self, **kwargs):

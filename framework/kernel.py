@@ -10,8 +10,14 @@ class Kernel:
         self.tools = ToolRegistry()
         self.assistants = {}
 
-        self.ai_engine = AIEngine(
+        """ self.ai_engine = AIEngine(
             self.tools
+        ) """
+        self.container.register_factory(
+            "ai_engine",
+            lambda: AIEngine(
+                self.tools
+            )
         )
 
     def boot(self):

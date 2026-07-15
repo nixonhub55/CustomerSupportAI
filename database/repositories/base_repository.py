@@ -1,17 +1,13 @@
 from database.connection import connect
+from core.base_component import BaseComponent
 
-
-class BaseRepository:
+class BaseRepository(BaseComponent):
 
     TABLE = None
 
     PRIMARY_KEY = None
 
-    SEARCHABLE_FIELDS = set()
-
-    DISPLAY_NAME = ""
-
-    DESCRIPTION = ""
+    SEARCHABLE_FIELDS = set() 
 
     DEFAULT_ORDER = None
 
@@ -63,13 +59,15 @@ class BaseRepository:
 
     def metadata(self):
 
-        return {
+        data = super().metadata()
+
+        data.update({
             "table": self.TABLE,
             "primary_key": self.PRIMARY_KEY,
-            "display_name": self.DISPLAY_NAME,
-            "description": self.DESCRIPTION,
             "searchable_fields": sorted(
                 self.SEARCHABLE_FIELDS
             ),
-            "default_order": self.DEFAULT_ORDER,
-        }
+            "default_order": self.DEFAULT_ORDER
+        })
+
+        return data

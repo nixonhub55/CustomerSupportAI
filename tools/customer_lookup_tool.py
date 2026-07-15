@@ -4,11 +4,17 @@ from services.customer_service import get_customer_profile
 
 class CustomerLookupTool(BaseTool):
 
-    name = "customer_lookup"
+    AUTO_REGISTER = True
 
-    description = "Retrieve customer profile information."
+    NAME = "customer_lookup"
 
-    parameters = [
+    DISPLAY_NAME = "Customer Lookup"
+
+    DESCRIPTION = "Retrieve customer profile information."
+
+    CATEGORY = "tool"
+
+    PARAMETERS = [
         {
             "name": "filters",
             "type": "object",
@@ -16,9 +22,7 @@ class CustomerLookupTool(BaseTool):
         }
     ]
 
-    category = "general"
-
-    plugin = "core"
+    PLUGIN = "core"
 
     def execute(self, **kwargs):
         """
