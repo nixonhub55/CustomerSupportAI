@@ -1,32 +1,32 @@
-from services.planner_service import plan
-
-
 class Dispatcher:
 
     def __init__(self, registry):
 
         self.registry = registry
 
-    def dispatch(self, assistant, question):
+    # -----------------------------------------------------
+
+    def dispatch(
+        self,
+        assistant,
+        question
+    ):
+
+        from services.planner_service import plan
 
         execution_plan = plan(question)
-         
+
         context = {}
 
-        if execution_plan.get("customer"):
+        for step in execution_plan.steps:
 
-            account_no = execution_plan.get("account_no")
+            tool = step["tool"]
 
-            context["customer_lookup"] = self.registry.execute(
-                "customer_lookup",
-                account_no=execution_plan.get("account_no"),
-                phone=execution_plan.get("phone")
+            arguments = step["arguments"]
+
+            context[tool] = self.registry.execute(
+                tool,
+                **arguments
             )
-
-           
-
-        # Knowledge retrieval will be added later.
-        # Invoice, payment and ticket retrieval will also
-        # be moved here as the planner evolves.
 
         return context

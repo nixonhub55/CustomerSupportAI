@@ -19,6 +19,7 @@ Never invent customer information.
 
     tools = [
         "customer_lookup",
+        "customer_statistics",
         "payment_history",
         "invoice_summary",
         "ticket_summary"

@@ -2,6 +2,7 @@ from tools.customer_lookup_tool import CustomerLookupTool
 from tools.payment_history_tool import PaymentHistoryTool
 from tools.invoice_summary_tool import InvoiceSummaryTool
 from tools.ticket_summary_tool import TicketSummaryTool
+from tools.customer_statistics_tool import CustomerStatisticsTool
 
 
 def register_tools(registry):
@@ -20,4 +21,8 @@ def register_tools(registry):
 
     registry.register(
         TicketSummaryTool()
+    )
+
+    registry.register(
+        CustomerStatisticsTool()
     )

@@ -71,3 +71,134 @@ class BaseRepository(BaseComponent):
         })
 
         return data
+
+
+    def count(self, **filters):
+
+        if self.TABLE is None:
+            raise NotImplementedError(
+                "TABLE must be defined."
+            )
+
+        clauses = []
+        values = []
+
+        for field, value in filters.items():
+
+            if value is None:
+                continue
+
+            if field not in self.SEARCHABLE_FIELDS:
+                raise ValueError(
+                    f"Invalid search field: {field}"
+                )
+
+            clauses.append(f"{field} = ?")
+            values.append(value)
+
+        sql = f"SELECT COUNT(*) AS total FROM {self.TABLE}"
+
+        if clauses:
+            sql += " WHERE " + " AND ".join(clauses)
+
+        conn = connect()
+
+        cursor = conn.cursor(dictionary=True)
+
+        cursor.execute(sql, tuple(values))
+
+        row = cursor.fetchone()
+
+        cursor.close()
+        conn.close()
+
+        return row["total"]
+
+    def exists(self, **filters):
+
+        return self.count(**filters) > 0
+
+    def find_all(self, **filters):
+
+        if self.TABLE is None:
+            raise NotImplementedError(
+                "TABLE must be defined."
+            )
+
+        clauses = []
+        values = []
+
+        for field, value in filters.items():
+
+            if value is None:
+                continue
+
+            if field not in self.SEARCHABLE_FIELDS:
+                raise ValueError(
+                    f"Invalid search field: {field}"
+                )
+
+            clauses.append(f"{field} = ?")
+            values.append(value)
+
+        sql = f"""
+            SELECT *
+            FROM {self.TABLE}
+        """
+
+        if clauses:
+            sql += " WHERE " + " AND ".join(clauses)
+
+        if self.DEFAULT_ORDER:
+            sql += f" ORDER BY {self.DEFAULT_ORDER}"
+
+        conn = connect()
+
+        cursor = conn.cursor(dictionary=True)
+
+        cursor.execute(sql, tuple(values))
+
+        rows = cursor.fetchall()
+
+        cursor.close()
+        conn.close()
+
+        return rows
+
+    def search(self, keyword):
+
+        if self.TABLE is None:
+            raise NotImplementedError(
+                "TABLE must be defined."
+            )
+
+        clauses = []
+        values = []
+
+        for field in self.SEARCHABLE_FIELDS:
+
+            clauses.append(f"{field} LIKE ?")
+
+            values.append(f"%{keyword}%")
+
+        sql = f"""
+            SELECT *
+            FROM {self.TABLE}
+            WHERE {' OR '.join(clauses)}
+        """
+
+        if self.DEFAULT_ORDER:
+            sql += f" ORDER BY {self.DEFAULT_ORDER}"
+
+        conn = connect()
+
+        cursor = conn.cursor(dictionary=True)
+
+        cursor.execute(sql, tuple(values))
+
+        rows = cursor.fetchall()
+
+        cursor.close()
+        conn.close()
+
+        return rows

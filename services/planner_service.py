@@ -1,63 +1,53 @@
 import re
 
+from framework.execution_plan import ExecutionPlan
+
 
 def plan(question):
 
-    q = question.lower()
+    question = question.lower()
 
-    plan = {
-        "customer": False,
-        "knowledge": False,
-        "account_no": None,
-        "phone": None,
-        "intent": "UNKNOWN"
-    }
+    execution_plan = ExecutionPlan()
 
-    # Detect account number (6-9 digits for your system)
-    account = re.search(r"\b\d{6,9}\b", q)
+    account_match = re.search(
+        r"\b\d{6,12}\b",
+        question
+    )
 
-    if account:
-        plan["account_no"] = account.group()
+    account_no = None
 
-    # Detect Philippine mobile number
-    phone = re.search(r"\b09\d{8}\b", q)
+    if account_match:
 
-    if phone:
-        plan["phone"] = phone.group()
+        account_no = account_match.group()
 
+    # -----------------------------------------
     # Customer lookup
-    if any(word in q for word in [
-        "show customer",
-        "customer info",
-        "customer information",
-        "customer details",
-        "account details",
-        "show account",
-        "who is",
-        "who owns",
-        "phone number"
-    ]):
-        plan["customer"] = True
-        plan["intent"] = "CUSTOMER_LOOKUP"
+    # -----------------------------------------
 
-    elif "balance" in q:
-        plan["customer"] = True
-        plan["intent"] = "BALANCE"
+    if (
+        "customer" in question
+        or "account" in question
+        or account_no
+    ):
 
-    elif "plan" in q:
-        plan["customer"] = True
-        plan["intent"] = "PLAN"
+        execution_plan.add(
+            "customer_lookup",
+            account_no=account_no
+        )
 
-    elif any(word in q for word in ["status", "active", "inactive"]):
-        plan["customer"] = True
-        plan["intent"] = "STATUS"
+    # -----------------------------------------
+    # Customer statistics
+    # -----------------------------------------
 
-    elif any(word in q for word in ["payment", "gcash", "maya", "pay"]):
-        plan["knowledge"] = True
-        plan["intent"] = "PAYMENT"
+    if (
+        "how many" in question
+        or "count" in question
+        or "total customers" in question
+        or "number of customers" in question
+    ):
 
-    elif any(word in q for word in ["policy", "process", "how", "why", "when"]):
-        plan["knowledge"] = True
-        plan["intent"] = "KNOWLEDGE"
+        execution_plan.add(
+            "customer_statistics"
+        )
 
-    return plan
+    return execution_plan

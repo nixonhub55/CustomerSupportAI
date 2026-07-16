@@ -9,3 +9,9 @@ def get_customer_profile(**filters):
     """
 
     return repository.find_one(**filters)
+
+
+
+def count_customers(**filters):
+
+    return repository.count(**filters)
