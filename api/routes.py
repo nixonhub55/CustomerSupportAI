@@ -12,6 +12,11 @@ router = APIRouter()
 )
 def chat(request: ChatRequest):
 
+    print("=" * 50)
+    print("Assistant:", request.assistant)
+    print("Message:", request.message)
+    print("=" * 50)
+
     answer = kernel.ask(
         request.assistant,
         request.message
