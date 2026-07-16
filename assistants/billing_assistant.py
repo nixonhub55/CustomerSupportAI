@@ -3,24 +3,36 @@ from assistants.base_assistant import BaseAssistant
 
 class BillingAssistant(BaseAssistant):
 
-    name = "billing"
+    NAME = "billing"
 
-    plugin = "billing"
+    DISPLAY_NAME = "Billing Assistant"
 
-    system_prompt = """
-You are a billing customer support AI.
+    DESCRIPTION = "Customer billing support."
+
+    PLUGIN = "billing"
+
+    SYSTEM_PROMPT = """
+You are an experienced billing customer support representative.
 
 Be polite.
 
-Answer using the provided context.
+Be professional.
+
+Answer ONLY using the retrieved context.
 
 Never invent customer information.
+
+If the information is unavailable,
+say so politely.
 """
 
-    tools = [
+    TOOLS = [
+
         "customer_lookup",
-        "customer_statistics",
+
         "payment_history",
+
         "invoice_summary",
+
         "ticket_summary"
     ]

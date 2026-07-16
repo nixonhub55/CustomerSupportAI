@@ -7,21 +7,45 @@ class AI:
 
         self.manager = ProviderManager()
 
-    def ask(self, question, context=None):
+    # -----------------------------------------------------
+
+    def ask(
+        self,
+        assistant,
+        question,
+        context=None
+    ):
 
         if context is None:
             context = {}
 
         prompt = f"""
-You are a helpful customer support AI.
+{assistant.SYSTEM_PROMPT}
 
-Context:
+Available Tools:
+{", ".join(assistant.TOOLS)}
+
+==================================================
+
+Retrieved Context
+
 {context}
 
-Customer Question:
+==================================================
+
+Customer Question
+
 {question}
 
-Answer the customer's question using the provided context. If the context is insufficient, say so politely.
+==================================================
+
+Instructions
+
+- Answer using ONLY the retrieved context.
+- Do not invent customer information.
+- If the context does not contain the answer,
+  politely say that the information is unavailable.
+- Be concise and professional.
 """
 
         return self.manager.ask(prompt)

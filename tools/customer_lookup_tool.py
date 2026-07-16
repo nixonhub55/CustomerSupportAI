@@ -22,6 +22,8 @@ class CustomerLookupTool(BaseTool):
         }
     ]
 
+    
+
     PLUGIN = "core"
 
     def execute(self, **kwargs):

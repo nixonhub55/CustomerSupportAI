@@ -1,5 +1,7 @@
 from tools.base_tool import BaseTool
-from services.customer_service import count_customers
+from services.customer_statistics_service import (
+    get_customer_statistics
+)
 
 
 class CustomerStatisticsTool(BaseTool):
@@ -10,24 +12,14 @@ class CustomerStatisticsTool(BaseTool):
 
     DISPLAY_NAME = "Customer Statistics"
 
-    DESCRIPTION = "Retrieve customer statistics."
+    DESCRIPTION = "Returns customer statistics."
 
     CATEGORY = "tool"
 
     PLUGIN = "core"
 
-    PARAMETERS = [
-        {
-            "name": "filters",
-            "type": "object",
-            "required": False
-        }
-    ]
+    PARAMETERS = []
 
-    def execute(self, **kwargs):
+    def execute(self):
 
-        total = count_customers(**kwargs)
-
-        return {
-            "total_customers": total
-        }
+        return get_customer_statistics()

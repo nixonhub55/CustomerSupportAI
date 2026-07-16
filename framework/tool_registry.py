@@ -89,3 +89,5 @@ class ToolRegistry:
         """
 
         self.tools.clear()
+
+    

@@ -27,8 +27,23 @@ class BaseTool(BaseComponent, ABC):
         data = super().metadata()
 
         data.update({
+
             "plugin": self.PLUGIN,
-            "parameters": self.PARAMETERS
+
+            "parameters": self.PARAMETERS,
+
+            "keywords": getattr(
+                self,
+                "KEYWORDS",
+                []
+            ),
+
+            "examples": getattr(
+                self,
+                "EXAMPLES",
+                []
+            )
+
         })
 
         return data

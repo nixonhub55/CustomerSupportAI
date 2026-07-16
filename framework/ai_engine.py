@@ -9,7 +9,13 @@ class AIEngine:
         self.dispatcher = Dispatcher(registry)
         self.ai = AI()
 
-    def ask(self, assistant, question):
+    # -----------------------------------------------------
+
+    def ask(
+        self,
+        assistant,
+        question
+    ):
 
         context = self.dispatcher.dispatch(
             assistant,
@@ -17,6 +23,7 @@ class AIEngine:
         )
 
         return self.ai.ask(
+            assistant,
             question,
             context
         )

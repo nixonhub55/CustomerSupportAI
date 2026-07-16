@@ -1,9 +1,31 @@
-class BaseAssistant:
+from core.base_component import BaseComponent
 
-    name = ""
 
-    system_prompt = ""
+class BaseAssistant(BaseComponent):
 
-    tools = []
+    NAME = ""
 
-    plugin = ""
+    DISPLAY_NAME = ""
+
+    DESCRIPTION = ""
+
+    CATEGORY = "assistant"
+
+    PLUGIN = ""
+
+    SYSTEM_PROMPT = ""
+
+    TOOLS = []
+
+    def metadata(self):
+
+        data = super().metadata()
+
+        data.update({
+
+            "plugin": self.PLUGIN,
+
+            "tools": self.TOOLS
+        })
+
+        return data
