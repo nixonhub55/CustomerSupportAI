@@ -1,16 +1,22 @@
 from fastapi import APIRouter
+
 from api.dependencies import kernel
+from api.models import ChatRequest, ChatResponse
 
 router = APIRouter()
 
 
-@router.post("/chat")
-def chat(request: dict):
+@router.post(
+    "/chat",
+    response_model=ChatResponse
+)
+def chat(request: ChatRequest):
 
     answer = kernel.ask(
-        request["message"]
+        request.assistant,
+        request.message
     )
 
-    return {
-        "answer": answer
-    }
+    return ChatResponse(
+        answer=answer
+    )
