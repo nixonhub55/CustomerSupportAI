@@ -85,6 +85,19 @@ def plan(question):
             "customer_lookup",
             account_no=account_no
         )
+    
+    if (
+        "all customers" in question_lower
+        or "list customers" in question_lower
+        or "show customers" in question_lower
+        or "customer list" in question_lower
+        or "all customer" in question_lower
+        or "all account" in question_lower
+    ):
+
+        execution_plan.add_step(
+            "customer_list"
+        )
 
     # -------------------------------------------------
     # Payment History
