@@ -1,5 +1,5 @@
 from core.container import Container
-
+from core.logger import Logger
 from framework.ai_engine import AIEngine
 from framework.tool_registry import ToolRegistry
 
@@ -35,13 +35,17 @@ class Kernel:
 
     def boot(self):
 
-        print("AI Framework starting...")
+        Logger.info(
+            "AI Framework starting..."
+        )
 
         self.load_tools()
 
         self.load_assistants()
 
-        print("AI Framework ready.")
+        Logger.info(
+            "AI Framework ready."
+        )
 
     # -----------------------------------------------------
 

@@ -1,3 +1,5 @@
+from core.logger import Logger
+
 class ToolRegistry:
     """
     Registry for all framework tools.
@@ -26,6 +28,10 @@ class ToolRegistry:
             )
 
         self.tools[name] = tool
+
+        Logger.info(
+            f"Tool registered: {name}"
+        )
     # -----------------------------------------------------
 
     def get(self, name):
@@ -48,6 +54,11 @@ class ToolRegistry:
             raise ValueError(
                 f"Tool '{name}' is not registered."
             )
+
+        Logger.debug(
+            f"Executing tool '{name}' "
+            f"with arguments {kwargs}"
+        )
 
         return tool.execute(**kwargs)
 

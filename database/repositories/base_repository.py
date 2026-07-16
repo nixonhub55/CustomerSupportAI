@@ -1,5 +1,6 @@
 from database.connection import connect
 from core.base_component import BaseComponent
+from core.logger import Logger
 
 class BaseRepository(BaseComponent):
 
@@ -48,6 +49,12 @@ class BaseRepository(BaseComponent):
 
         cursor = conn.cursor(dictionary=True)
 
+        Logger.debug(sql)
+
+        Logger.debug(
+            f"Parameters: {values}"
+        )
+
         cursor.execute(sql, tuple(values))
 
         row = cursor.fetchone()
@@ -71,7 +78,6 @@ class BaseRepository(BaseComponent):
         })
 
         return data
-
 
     def count(self, **filters):
 
@@ -104,6 +110,12 @@ class BaseRepository(BaseComponent):
         conn = connect()
 
         cursor = conn.cursor(dictionary=True)
+
+        Logger.debug(sql)
+
+        Logger.debug(
+            f"Parameters: {values}"
+        )
 
         cursor.execute(sql, tuple(values))
 
@@ -156,6 +168,12 @@ class BaseRepository(BaseComponent):
 
         cursor = conn.cursor(dictionary=True)
 
+        Logger.debug(sql)
+
+        Logger.debug(
+            f"Parameters: {values}"
+        )
+
         cursor.execute(sql, tuple(values))
 
         rows = cursor.fetchall()
@@ -193,6 +211,12 @@ class BaseRepository(BaseComponent):
         conn = connect()
 
         cursor = conn.cursor(dictionary=True)
+
+        Logger.debug(sql)
+
+        Logger.debug(
+            f"Parameters: {values}"
+        )
 
         cursor.execute(sql, tuple(values))
 

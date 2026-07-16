@@ -13,38 +13,27 @@ class AI:
         self,
         assistant,
         question,
-        context=None
+        execution_plan,
+        context
     ):
-
-        if context is None:
-            context = {}
 
         prompt = f"""
 {assistant.SYSTEM_PROMPT}
 
-Available Tools:
-{", ".join(assistant.TOOLS)}
+Intent:
+{execution_plan.intent}
 
-==================================================
-
-Retrieved Context
-
+Context:
 {context}
 
-==================================================
-
-Customer Question
-
+Customer Question:
 {question}
 
-==================================================
+Instructions:
 
-Instructions
-
-- Answer using ONLY the retrieved context.
-- Do not invent customer information.
-- If the context does not contain the answer,
-  politely say that the information is unavailable.
+- Answer using the context whenever possible.
+- If the context is empty, answer from general customer support knowledge.
+- Never invent customer-specific information.
 - Be concise and professional.
 """
 

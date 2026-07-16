@@ -11,7 +11,7 @@ class BaseAssistant(BaseComponent):
 
     CATEGORY = "assistant"
 
-    PLUGIN = ""
+    PLUGIN = "core"
 
     SYSTEM_PROMPT = ""
 

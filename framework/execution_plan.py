@@ -1,28 +1,33 @@
 class ExecutionPlan:
-    """
-    Represents a list of tool execution steps.
-    """
 
     def __init__(self):
+
+        self.intent = "unknown"
+
+        self.requires_context = False
 
         self.steps = []
 
     # -----------------------------------------------------
 
-    def add(
+    def add_step(
         self,
         tool,
         **arguments
     ):
 
         self.steps.append({
+
             "tool": tool,
+
             "arguments": arguments
         })
 
+        self.requires_context = True
+
     # -----------------------------------------------------
 
-    def empty(self):
+    def is_empty(self):
 
         return len(self.steps) == 0
 
@@ -31,5 +36,10 @@ class ExecutionPlan:
     def to_dict(self):
 
         return {
+
+            "intent": self.intent,
+
+            "requires_context": self.requires_context,
+
             "steps": self.steps
         }

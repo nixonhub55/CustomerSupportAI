@@ -1,21 +1,69 @@
 import re
-
+from core.logger import Logger
 from framework.execution_plan import ExecutionPlan
 
 
-def plan(question):
 
-    question = question.lower()
+def plan(question):
+    
+    Logger.info(
+        f"Planning: {question}"
+    ) 
+
+    question_lower = question.lower()
 
     execution_plan = ExecutionPlan()
 
-    # -----------------------------------------
-    # Detect account number
-    # -----------------------------------------
+    # -------------------------------------------------
+    # Detect Intent
+    # -------------------------------------------------
+
+    if any(word in question_lower for word in [
+        "hello",
+        "hi",
+        "hey",
+        "good morning",
+        "good afternoon",
+        "good evening"
+    ]):
+
+        execution_plan.intent = "greeting"
+
+        return execution_plan
+
+    if any(word in question_lower for word in [
+        "thanks",
+        "thank you",
+        "thank u"
+    ]):
+
+        execution_plan.intent = "gratitude"
+
+        return execution_plan
+
+    if any(word in question_lower for word in [
+        "bye",
+        "goodbye",
+        "see you"
+    ]):
+
+        execution_plan.intent = "farewell"
+
+        return execution_plan
+
+    # -------------------------------------------------
+    # Default intent
+    # -------------------------------------------------
+
+    execution_plan.intent = "customer_support"
+
+    # -------------------------------------------------
+    # Detect Account Number
+    # -------------------------------------------------
 
     account_match = re.search(
         r"\b\d{6,12}\b",
-        question
+        question_lower
     )
 
     account_no = None
@@ -23,80 +71,90 @@ def plan(question):
     if account_match:
         account_no = account_match.group()
 
-    # -----------------------------------------
-    # Customer lookup
-    # -----------------------------------------
+    # -------------------------------------------------
+    # Customer Lookup
+    # -------------------------------------------------
 
     if (
-        "customer" in question
-        or "account" in question
+        "customer" in question_lower
+        or "account" in question_lower
         or account_no
     ):
 
-        execution_plan.add(
+        execution_plan.add_step(
             "customer_lookup",
             account_no=account_no
         )
 
-    # -----------------------------------------
-    # Payment history
-    # -----------------------------------------
+    # -------------------------------------------------
+    # Payment History
+    # -------------------------------------------------
 
-    if (
-        "payment" in question
-        or "paid" in question
-        or "history" in question
-    ):
+    if any(word in question_lower for word in [
+        "payment",
+        "paid",
+        "history"
+    ]):
 
-        execution_plan.add(
+        execution_plan.add_step(
             "payment_history",
             account_no=account_no
         )
 
-    # -----------------------------------------
-    # Invoice summary
-    # -----------------------------------------
+    # -------------------------------------------------
+    # Invoice Summary
+    # -------------------------------------------------
 
-    if (
-        "invoice" in question
-        or "bill" in question
-        or "balance" in question
-    ):
+    if any(word in question_lower for word in [
+        "invoice",
+        "bill",
+        "balance"
+    ]):
 
-        execution_plan.add(
+        execution_plan.add_step(
             "invoice_summary",
             account_no=account_no
         )
 
-    # -----------------------------------------
-    # Ticket summary
-    # -----------------------------------------
+    # -------------------------------------------------
+    # Ticket Summary
+    # -------------------------------------------------
 
-    if (
-        "ticket" in question
-        or "tickets" in question
-        or "case" in question
-        or "complaint" in question
-    ):
+    if any(word in question_lower for word in [
+        "ticket",
+        "tickets",
+        "case",
+        "complaint"
+    ]):
 
-        execution_plan.add(
+        execution_plan.add_step(
             "ticket_summary",
             account_no=account_no
         )
 
-    # -----------------------------------------
-    # Customer statistics
-    # -----------------------------------------
+    # -------------------------------------------------
+    # Customer Statistics
+    # -------------------------------------------------
 
-    if (
-        "how many" in question
-        or "count" in question
-        or "number of customers" in question
-        or "total customers" in question
-    ):
+    if any(word in question_lower for word in [
+        "how many",
+        "count",
+        "number of customers",
+        "total customers"
+    ]):
 
-        execution_plan.add(
+        execution_plan.add_step(
             "customer_statistics"
         )
+
+
+    Logger.debug(
+        f"Intent: {execution_plan.intent}"
+    )
+
+    Logger.debug(
+        f"Steps: {execution_plan.steps}"
+    )
+
 
     return execution_plan
