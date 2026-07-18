@@ -22,7 +22,28 @@ class CustomerLookupTool(BaseTool):
         }
     ]
 
-    
+    KEYWORDS = [
+
+        "customer",
+        "account",
+        "subscriber",
+        "profile",
+        "information",
+        "details",
+        "active",
+        "inactive",
+        "status"
+
+    ]
+
+    EXAMPLES = [
+
+        "Show customer 100001",
+        "Customer details",
+        "Is customer active?",
+        "Who is account 100002?"
+
+    ]
 
     PLUGIN = "core"
 

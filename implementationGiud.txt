@@ -1,0 +1,4 @@
+1. Add new table
+C:\AIProjects\CustomerSupportAI\database\repositories\customer_repository.py
+
+2.

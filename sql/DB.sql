@@ -63,7 +63,7 @@ CREATE TABLE payments (
 ) ENGINE=INNODB;
 
 
-
+-- DROP TABLE IF EXISTS payments;
 CREATE TABLE payments (
     payment_id BIGINT AUTO_INCREMENT PRIMARY KEY, 
     account_no VARCHAR(50) NOT NULL, 
@@ -77,13 +77,15 @@ CREATE TABLE payments (
 ) ENGINE=INNODB;
 
 
+/*
 INSERT INTO payments
 (account_no, amount, payment_date, payment_method, reference_no)
 VALUES
-('100001',1000,'2026-07-10 09:30:00','GCash','GC123456'),
-('100001',1000,'2026-06-10 10:15:00','Cash','OFFICE001'),
-('100001',1000,'2026-05-10 08:45:00','Maya','MY987654');
+('100001',500,'2026-05-10 09:30:00','GCash','GC123456'),
+('100001',600,'2026-06-10 10:15:00','Cash','OFFICE001'),
+('100001',700,'2026-07-10 08:45:00','Maya','MY987654');
 
+*/
 
 
 CREATE TABLE invoices ( 
@@ -228,5 +230,31 @@ VALUES
 );
 
 
- 
+
+	
+DROP TABLE IF EXISTS v_cb_customers;
+DROP VIEW IF EXISTS v_cb_customers;
+DELIMITER $$ 
+CREATE VIEW `v_cb_customers` AS  
+	SELECT custome_id AS customer_id
+	      ,account_no
+	      ,lastname
+	      ,firstname 
+	      ,middlename
+	      ,(CASE
+		   WHEN `status`=1 THEN 'Active'
+		   WHEN `status`=0 THEN 'In-Active'
+	        END) AS `status`
+	      ,plan
+	      ,balance
+	      ,address
+	      ,phone
+	      ,email
+	      ,created_at
+	      ,plan_id
+	FROM customers;
+        $$ 
+DELIMITER ;
+ 		
+		
  

@@ -24,6 +24,16 @@ class TicketSummaryTool(BaseTool):
             "description": "Customer account number"
         }
     ]
+
+    KEYWORDS = [
+
+        "ticket",
+        "complaint",
+        "case",
+        "issue",
+        "support"
+
+    ]
     
 
     def execute(self, account_no):

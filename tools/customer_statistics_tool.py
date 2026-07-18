@@ -20,6 +20,15 @@ class CustomerStatisticsTool(BaseTool):
 
     PARAMETERS = []
 
+    KEYWORDS = [
+
+        "count",
+        "how many",
+        "statistics",
+        "total customers"
+
+    ]
+
     def execute(self):
 
         return get_customer_statistics()

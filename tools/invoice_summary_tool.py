@@ -25,6 +25,25 @@ class InvoiceSummaryTool(BaseTool):
         }
     ]
 
+    KEYWORDS = [
+
+        "invoice",
+        "bill",
+        "balance",
+        "amount due",
+        "due",
+        "unpaid"
+
+    ]
+
+    EXAMPLES = [
+
+        "What is the balance?",
+        "Show unpaid invoices",
+        "Outstanding bill"
+
+    ]
+
     
 
     def execute(self, account_no):

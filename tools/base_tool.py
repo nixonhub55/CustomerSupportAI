@@ -42,6 +42,12 @@ class BaseTool(BaseComponent, ABC):
                 self,
                 "EXAMPLES",
                 []
+            ),
+
+            "intents": getattr(
+                self,
+                "INTENTS ",
+                []
             )
 
         })

@@ -93,6 +93,35 @@ class ToolRegistry:
         ]
 
     # -----------------------------------------------------
+    
+    def find_matching_tools(self, question):
+        """
+        Return tool names whose keywords match the question.
+        """
+
+        question = question.lower()
+
+        matches = []
+
+        for tool in self.tools.values():
+
+            metadata = tool.metadata()
+
+            keywords = metadata.get("keywords", [])
+
+            for keyword in keywords:
+
+                if keyword.lower() in question:
+
+                    matches.append(metadata["name"])
+                    break
+                    
+        Logger.debug(
+            f"Matching tools: {matches}"
+        )
+        return matches
+    
+    # -----------------------------------------------------
 
     def clear(self):
         """

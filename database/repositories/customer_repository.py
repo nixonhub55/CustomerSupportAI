@@ -3,7 +3,7 @@ from database.repositories.base_repository import BaseRepository
 
 class CustomerRepository(BaseRepository):
 
-    TABLE = "customers"
+    TABLE = "v_cb_customers"
 
     PRIMARY_KEY = "account_no"
 

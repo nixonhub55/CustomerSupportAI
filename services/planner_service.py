@@ -1,79 +1,56 @@
-import re
 from core.logger import Logger
-from framework.execution_plan import ExecutionPlan
-
+from framework.execution_plan import ExecutionPlan 
+from services.normalizer import normalize
+from services.intent_detector import detect_intent
+from services.text_utils import (
+    contains_any,
+    extract_account_no,
+)
 
 
 def plan(question):
-    
+
+    # -----------------------------------------
+    # Normalize
+    # -----------------------------------------
+
+    question = normalize(question)
+
+    Logger.debug(f"Normalized question: {question}")
+
+    question_lower = question
+
     Logger.info(
         f"Planning: {question}"
-    ) 
-
-    question_lower = question.lower()
+    )
 
     execution_plan = ExecutionPlan()
 
-    # -------------------------------------------------
+    # -----------------------------------------
     # Detect Intent
-    # -------------------------------------------------
+    # -----------------------------------------
 
-    if any(word in question_lower for word in [
-        "hello",
-        "hi",
-        "hey",
-        "good morning",
-        "good afternoon",
-        "good evening"
-    ]):
+    execution_plan.intent = detect_intent(question)
 
-        execution_plan.intent = "greeting"
+    if execution_plan.intent != "customer_support":
+
+        Logger.debug(
+            f"Intent: {execution_plan.intent}"
+        )
 
         return execution_plan
 
-    if any(word in question_lower for word in [
-        "thanks",
-        "thank you",
-        "thank u"
-    ]):
-
-        execution_plan.intent = "gratitude"
-
-        return execution_plan
-
-    if any(word in question_lower for word in [
-        "bye",
-        "goodbye",
-        "see you"
-    ]):
-
-        execution_plan.intent = "farewell"
-
-        return execution_plan
-
-    # -------------------------------------------------
-    # Default intent
-    # -------------------------------------------------
-
-    execution_plan.intent = "customer_support"
-
-    # -------------------------------------------------
+    # -----------------------------------------
     # Detect Account Number
-    # -------------------------------------------------
+    # -----------------------------------------
 
-    account_match = re.search(
-        r"\b\d{6,12}\b",
-        question_lower
-    )
+    account_no = extract_account_no(question_lower)
 
-    account_no = None
+    Logger.debug(f"Extracted account_no: {account_no}")
 
-    if account_match:
-        account_no = account_match.group()
-
-    # -------------------------------------------------
+    # -----------------------------------------
     # Customer Lookup
-    # -------------------------------------------------
+    # -----------------------------------------
 
     if (
         "customer" in question_lower
@@ -85,43 +62,91 @@ def plan(question):
             "customer_lookup",
             account_no=account_no
         )
-    
-    if (
-        "all customers" in question_lower
-        or "list customers" in question_lower
-        or "show customers" in question_lower
-        or "customer list" in question_lower
-        or "all customer" in question_lower
-        or "all account" in question_lower
-    ):
+
+    # -----------------------------------------
+    # Customer Profile Questions
+    # -----------------------------------------
+
+    if contains_any(question_lower, [
+
+        "active",
+        "inactive",
+
+        "status",
+
+        "phone",
+        "mobile",
+        "contact",
+
+        "email",
+
+        "address",
+
+        "plan",
+
+        "name",
+
+    ]):
+
+        execution_plan.add_step(
+            "customer_lookup",
+            account_no=account_no
+        )
+
+    # -----------------------------------------
+    # Customer List
+    # -----------------------------------------
+
+    if contains_any(question_lower, [
+
+        "all customers",
+        "list customers",
+        "show customers",
+        "customer list",
+        "all customer",
+        "all account"
+
+    ]):
 
         execution_plan.add_step(
             "customer_list"
         )
 
-    # -------------------------------------------------
+    # -----------------------------------------
     # Payment History
-    # -------------------------------------------------
+    # -----------------------------------------
 
-    if any(word in question_lower for word in [
+    Logger.debug(
+        f"Payment detection: {question_lower}"
+    )
+
+    if contains_any(question_lower, [
+        
         "payment",
         "paid",
         "history"
+
     ]):
+
+        Logger.debug(
+            "Planner decided to execute payment_history."
+        )
 
         execution_plan.add_step(
             "payment_history",
             account_no=account_no
         )
 
-    # -------------------------------------------------
+    # -----------------------------------------
     # Invoice Summary
-    # -------------------------------------------------
+    # -----------------------------------------
 
-    if any(word in question_lower for word in [
+    if contains_any(question_lower, [
+
         "invoice",
         "bill",
         "balance"
+
     ]):
 
         execution_plan.add_step(
@@ -129,15 +154,17 @@ def plan(question):
             account_no=account_no
         )
 
-    # -------------------------------------------------
+    # -----------------------------------------
     # Ticket Summary
-    # -------------------------------------------------
+    # -----------------------------------------
 
-    if any(word in question_lower for word in [
+    if contains_any(question_lower, [
+
         "ticket",
         "tickets",
         "case",
         "complaint"
+
     ]):
 
         execution_plan.add_step(
@@ -145,21 +172,22 @@ def plan(question):
             account_no=account_no
         )
 
-    # -------------------------------------------------
+    # -----------------------------------------
     # Customer Statistics
-    # -------------------------------------------------
+    # -----------------------------------------
 
-    if any(word in question_lower for word in [
+    if contains_any(question_lower, [
+
         "how many",
         "count",
         "number of customers",
         "total customers"
+
     ]):
 
         execution_plan.add_step(
             "customer_statistics"
         )
-
 
     Logger.debug(
         f"Intent: {execution_plan.intent}"
@@ -168,6 +196,5 @@ def plan(question):
     Logger.debug(
         f"Steps: {execution_plan.steps}"
     )
-
 
     return execution_plan

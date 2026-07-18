@@ -25,6 +25,26 @@ class PaymentHistoryTool(BaseTool):
         }
     ]
 
+    KEYWORDS = [
+
+        "payment",
+        "payments",
+        "paid",
+        "history",
+        "receipt",
+        "transaction"
+
+    ]
+
+    EXAMPLES = [
+
+        "Show payments",
+        "Payment history",
+        "Last payment"
+
+    ]
+
+    
     def execute(self, account_no):
 
         return get_payment_history(account_no)

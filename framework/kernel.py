@@ -1,7 +1,9 @@
 from core.container import Container
 from core.logger import Logger
+
 from framework.ai_engine import AIEngine
 from framework.tool_registry import ToolRegistry
+from framework.conversation_context import ConversationContext
 
 from assistants.billing_assistant import BillingAssistant
 
@@ -18,6 +20,8 @@ class Kernel:
 
         self.tools = ToolRegistry()
 
+        self.context = ConversationContext()
+
         self.assistants = {}
 
         # -------------------------
@@ -27,7 +31,8 @@ class Kernel:
         self.container.register_factory(
             "ai_engine",
             lambda: AIEngine(
-                self.tools
+                self.tools,
+                self.context
             )
         )
 
