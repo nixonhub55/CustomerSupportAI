@@ -8,7 +8,7 @@ from services.plan_validator import validate
 from services.context_manager import ContextManager
 from services.conversation_resolver import ConversationResolver
 from services.result_processor import ResultProcessor
-
+from services.tool_matcher import ToolMatcher
 
 class AIEngine:
 
@@ -33,6 +33,8 @@ class AIEngine:
 
         self.result_processor = ResultProcessor()
 
+        self.tool_matcher = ToolMatcher(registry)
+
     # -------------------------------------------------
 
     def ask(self, assistant, question):
@@ -43,6 +45,12 @@ class AIEngine:
 
         Logger.info(
             f"Question: {question}"
+        )
+
+        matches = self.tool_matcher.match(question)
+
+        Logger.debug(
+            f"Suggested tools: {[m['tool'].NAME for m in matches]}"
         )
 
         # -------------------------------------------------

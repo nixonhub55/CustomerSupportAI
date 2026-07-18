@@ -25,14 +25,11 @@ class TicketSummaryTool(BaseTool):
         }
     ]
 
-    KEYWORDS = [
-
-        "ticket",
-        "complaint",
-        "case",
-        "issue",
-        "support"
-
+    KEYWORDS = [ 
+        "ticket", 
+        "complaint", 
+        "case",  
+        "support" 
     ]
     
 

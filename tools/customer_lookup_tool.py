@@ -22,19 +22,20 @@ class CustomerLookupTool(BaseTool):
         }
     ]
 
-    KEYWORDS = [
-
-        "customer",
-        "account",
-        "subscriber",
-        "profile",
-        "information",
-        "details",
-        "active",
-        "inactive",
-        "status"
-
-    ]
+    KEYWORDS = [ 
+            "customer", 
+            "account", 
+            "subscriber", 
+            "profile", 
+            "status", 
+            "active", 
+            "inactive", 
+            "plan", 
+            "email", 
+            "phone", 
+            "address", 
+            "balance" 
+        ]
 
     EXAMPLES = [
 

@@ -25,15 +25,13 @@ class InvoiceSummaryTool(BaseTool):
         }
     ]
 
-    KEYWORDS = [
-
-        "invoice",
-        "bill",
-        "balance",
-        "amount due",
-        "due",
-        "unpaid"
-
+    KEYWORDS = [ 
+        "invoice", 
+        "bill", 
+        "balance", 
+        "due", 
+        "due date", 
+        "unpaid" 
     ]
 
     EXAMPLES = [

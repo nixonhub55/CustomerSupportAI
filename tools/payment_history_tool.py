@@ -25,14 +25,17 @@ class PaymentHistoryTool(BaseTool):
         }
     ]
 
-    KEYWORDS = [
-
-        "payment",
-        "payments",
-        "paid",
-        "history",
-        "receipt",
-        "transaction"
+    KEYWORDS = [ 
+        "payment", 
+        "payments", 
+        "paid", 
+        "payment history", 
+        "last payment", 
+        "payment date", 
+        "payment amount", 
+        "cash", 
+        "maya", 
+        "gcash"
 
     ]
 

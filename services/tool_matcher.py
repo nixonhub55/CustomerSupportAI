@@ -4,31 +4,49 @@ from core.logger import Logger
 class ToolMatcher:
 
     def __init__(self, registry):
+
         self.registry = registry
 
-    # -------------------------------------------------
+    # -----------------------------------------------------
 
     def match(self, question):
 
         question = question.lower()
 
-        matched = []
+        matches = []
 
-        for metadata in self.registry.metadata():
+        for tool in self.registry.tools.values():
 
-            keywords = metadata.get("keywords", [])
+            score = 0
+
+            keywords = getattr(tool, "KEYWORDS", [])
 
             for keyword in keywords:
 
                 if keyword.lower() in question:
 
-                    Logger.debug(
-                        f"Matched tool '{metadata['name']}' "
-                        f"using keyword '{keyword}'"
-                    )
+                    score += 1
 
-                    matched.append(metadata["name"])
+            if score > 0:
 
-                    break
+                matches.append({
 
-        return matched
+                    "tool": tool,
+
+                    "score": score
+
+                })
+
+        matches.sort(
+
+            key=lambda item: item["score"],
+
+            reverse=True
+
+        )
+
+        Logger.debug(
+            f"ToolMatcher: {[m['tool'].NAME for m in matches]}"
+        )
+
+        return matches
